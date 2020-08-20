@@ -1,0 +1,79 @@
+.wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-flow: row;
+    justify-content: space-between;
+    align-content: center;
+    background-color: rgba(0, 0, 0, 0.082);
+    padding: 5px;
+    max-height: 40px;
+}
+
+.start_items > button {
+    margin-right: 4px;
+}
+
+.end_items > button {
+    margin-right: 4px;
+}
+
+.logo {
+    height: 30px;
+    width: 80px;
+    background-image: url('../../images/trello_logo.png');
+    background-size: contain;
+    opacity: 0.5;
+}
+
+.inline {
+    width: 85px !important;
+    vertical-align: top;
+}
+
+.board {
+    color: white;
+    font-weight: 700;
+    margin-left: 3px;
+    margin-bottom: 5px;
+}
+
+.material-icons-outlined.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons-outlined.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+.material-icons-outlined.md-20 { font-size: 20px; width: 20px; height: 20px; }
+
+.square_button {
+    background-color: hsla(0,0%,100%,0.3);
+    border: 1px;
+    border-radius: 3px;
+    width: 32px;
+    height: 32px;
+}
+.square_button:hover {
+    background-color: hsla(0,0%,75%,0.3);
+    border: 1px;
+    border-radius: 3px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+.circle_button {
+    background-color: hsla(0,0%,100%,0.3);
+    border: 1px;
+    border-radius: 20px;
+    width: 32px;
+    height: 32px;
+}
+.circle_button:hover {
+    background-color: hsla(0,0%,75%,0.3);
+    border: 1px;
+    border-radius: 20px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+.blau {
+    background: lightskyblue;
+}
+.blau:hover {
+    background: rgba(172, 225, 241, 0.726);
+}
