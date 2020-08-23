@@ -1,0 +1,8 @@
+.board-flex-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-right: 0;
+    position: relative;
+    transition: margin .1s ease-in;
+    height: 100%;
+}

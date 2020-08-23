@@ -1,0 +1,25 @@
+.board-header {
+	padding: 8px 4px 4px 8px;
+	position: relative;
+	transition: padding 0.1s ease-in;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+}
+
+.header-button {
+	width: 32px;
+	height: 32px;
+	border-radius: 5px;
+	background-color: white;
+	margin: 0 4px 4px 0px;
+}
+
+.items-start {
+    display: inherit;
+    flex-wrap: wrap;
+}
+.items-end {
+    display: inherit;
+    margin-left: auto;
+}

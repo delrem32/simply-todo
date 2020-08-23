@@ -1,0 +1,24 @@
+.board-content {
+    display: flex;
+    flex-flow: row;
+    user-select: none;
+    margin-bottom: 8px;
+    margin-right: 8px;
+    margin-left: 8px;
+    overflow-x: auto;
+    overflow-y: auto;
+    padding-bottom: 8px;
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.board-list {
+    min-width: 272px;
+    background-color: white;
+    margin-right: 8px;
+    border-radius: 3px;
+    height: 100%;
+}
