@@ -1,4 +1,7 @@
+body {
+  height: 100%;
+  background-color: #0079bf;
+}
+
 .App {
-  background-color: rgb(176 70 50);
-  min-height: 1000px;
 }
