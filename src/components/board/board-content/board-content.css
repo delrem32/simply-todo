@@ -1,18 +1,12 @@
 .board-content {
     display: flex;
     flex-flow: row;
-    user-select: none;
     margin-bottom: 8px;
     margin-right: 8px;
     margin-left: 8px;
-    overflow-x: auto;
-    overflow-y: auto;
     padding-bottom: 8px;
-    position: relative;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    max-height: 100%;
+    width: 272px;
 }
 
 .board-list {
@@ -20,5 +14,62 @@
     background-color: white;
     margin-right: 8px;
     border-radius: 3px;
+    max-height: 100%;
+}
+
+.board-content-wrapper {
     height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-bottom: 14px;
+    margin-top: 5px;
+    margin-right: 8px;
+}
+.board-content-wrapper::-webkit-scrollbar-thumb {
+    background: hsla(0, 0%, 100%, 0.4);
+    border-radius: 5px;
+}
+
+/* Track */
+.board-content-wrapper::-webkit-scrollbar-track {
+    background: hsla(0, 0%, 0%, 0.2);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 14px;
+}
+
+.board-new-list-btn {
+    height: 40px;
+    min-width: 272px;
+    max-width: 272px;
+    display: flex;
+	background-color: hsla(0, 0%, 100%, 0.3);
+	align-items: center;
+	border: 1px;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 6px 8px 8px 8px;
+    white-space: nowrap;
+    color: white;
+    font-weight: 400;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.new-list-text {
+    font-size: 14px;
+    font-weight: 400;
+    margin-left: 5px;
+}
+
+.board-new-list-btn:hover {
+    background: hsla(0, 0%, 100%, 0.5);
+}
+
+.material-icons-outlined.vl-16 {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
 }

@@ -1,8 +1,9 @@
 body {
   background-color: #0079bf;
   overflow: hidden;
+
 }
 
 .App {
-  
+  height: 100vh;
 }
