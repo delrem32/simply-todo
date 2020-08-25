@@ -1,16 +1,15 @@
 .board-content {
-    display: flex;
-    flex-flow: row;
     margin-bottom: 8px;
     margin-right: 8px;
     margin-left: 8px;
     padding-bottom: 8px;
     max-height: 100%;
-    width: 272px;
+    min-width: 272px;
+    max-width: 272px;
 }
 
 .board-list {
-    min-width: 272px;
+    
     background-color: white;
     margin-right: 8px;
     border-radius: 3px;
@@ -18,12 +17,15 @@
 }
 
 .board-content-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
     height: 100%;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: auto;
     margin-bottom: 14px;
     margin-top: 5px;
     margin-right: 8px;
+    scrollbar-width: thin;
 }
 .board-content-wrapper::-webkit-scrollbar-thumb {
     background: hsla(0, 0%, 100%, 0.4);

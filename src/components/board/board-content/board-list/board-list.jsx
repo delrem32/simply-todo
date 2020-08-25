@@ -1,8 +1,62 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
 import "./board-list.css";
+import TextareaAutosize from "react-textarea-autosize";
 
 function BoardList() {
+	const [visible, setVisible] = useState(false);
+	function handleVisibility() {
+		setVisible(!visible);
+	}
+	function newCard(visible) {
+		if (visible) {
+			return (
+				<div>
+					<div className="list-card-details">
+						<TextareaAutosize
+							className="list-card-new"
+							placeholder="Geben Sie einen Titel für diese Karte ein ..."
+							minRows={2}
+						/>
+					</div>
+					<div className="new-card-btn-container">
+						<button className="new-card-btn">
+							Karte hinzufügen
+						</button>
+						<button className="new-card-close" onClick={handleVisibility}>
+							<i className="material-icons-outlined bl-24">
+								close
+							</i>
+						</button>
+					</div>
+				</div>
+			);
+		}
+	}
+	function addCard(visible) {
+		if (!visible) {
+			return (
+				<div className="list-cards-footer">
+					<div>
+						<button className="open-new-card" onClick={handleVisibility}>
+							<i className="material-icons-outlined bl-20">add</i>
+							<span className="open-card-text">
+								Eine weitere Karte hinzufügen
+							</span>
+						</button>
+					</div>
+					<div className="open-template">
+						<button className="open-template-button">
+							<i className="material-icons-outlined bl-20">
+								view_quilt
+							</i>
+						</button>
+					</div>
+				</div>
+			);
+		}
+	}
+
 	return (
 		<div className="list-cards">
 			<div className="list-card-header">
@@ -46,22 +100,9 @@ function BoardList() {
 						transformadores com TAP central.
 					</div>
 				</div>
+				{newCard(visible)}
 			</div>
-			<div className="list-cards-footer">
-				<div>
-				<a className="open-new-card">
-					<i className="material-icons-outlined bl-20">add</i>
-					<span className="open-card-text">Eine weitere Karte hinzufügen</span>
-				</a>
-				</div>
-				<div className="open-template">
-					<button className="open-template-button">
-						<i className="material-icons-outlined bl-20">
-							view_quilt
-						</i>
-					</button>
-				</div>
-			</div>
+			{addCard(visible)}
 		</div>
 	);
 }

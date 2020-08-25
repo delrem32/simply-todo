@@ -1,145 +1,199 @@
 .list-cards {
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    width: 100%;
-    background-color: #ebecf0;
-    border-radius: 5px;
-    color: #162b4c;
-    overflow-y: hidden;
-    overflow-x: hidden;
-    max-height: 100%;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	width: 100%;
+	background-color: #ebecf0;
+	border-radius: 5px;
+	color: #162b4c;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	max-height: 100%;
 }
 
 .list-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-height: 40px;
-    width: 100%;
-    text-align: center;
-    
-    
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-height: 40px;
+	width: 100%;
+	text-align: center;
 }
 
 .list-card-header > h2 {
-    font-size: 14px;
-    margin: 5px;
-    padding: 6px;
-    font-weight: 600;
+	font-size: 14px;
+	margin: 5px;
+	padding: 6px;
+	font-weight: 600;
 }
 
 .list-card-header-button {
-    border-radius: 3px;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    position: relative;
-    right: 8px;
-    top: 4px;
+	border-radius: 3px;
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
+	position: relative;
+	right: 8px;
+	top: 4px;
 }
 
 .list-card-header-button:hover {
-    background-color: hsla(0, 0%, 75%, 0.3);
+	background-color: hsla(0, 0%, 75%, 0.3);
 }
 
 .list-card-details {
-    background-color: white;
-    border-radius: 5px;
-    padding: 6px 8px 2px;
-    min-height: 20px;
-    max-width: 100%;
-    white-space: pre-wrap;
-    border-radius: 3px;
-    margin-bottom: 5px;
-    margin-top: 5px;
-    box-shadow: 0 1px 0 rgba(9,30,66,.25);
-    font-size: 14px;
+	background-color: white;
+	border-radius: 5px;
+	padding: 6px 8px 2px;
+	min-height: 20px;
+	max-width: 100%;
+	white-space: pre-wrap;
+	border-radius: 3px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+	box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
+	font-size: 14px;
 }
 
+.list-card-new {
+	padding: 0 0 15% 0;
+	margin: 0;
+	min-height: 20px;
+	width: 100%;
+	display: flex;
+	border: none;
+	resize: none;
+	overflow-y: hidden;
+	outline: none;
+	font-size: 14px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+		Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
 .material-icons-outlined.bl-16 {
-    color: #6b778c;
+	color: #6b778c;
 	font-size: 16px;
 	width: 16px;
-    height: 16px;
-    line-height: 30px;
-    text-align: center;
+	height: 16px;
+	line-height: 30px;
+	text-align: center;
+}
+.material-icons-outlined.bl-24 {
+	color: #6b778c;
+	font-size: 24px;
+	width: 24px;
+	height: 24px;
+	text-align: center;
+}
+.material-icons-outlined.bl-24:hover {
+	color: black;
 }
 
 .material-icons-outlined.bl-20 {
-    color: #6b778c;
+	color: #6b778c;
 	font-size: 20px;
 	width: 20px;
-    height: 20px;
-    vertical-align: middle;
+	height: 20px;
+	vertical-align: middle;
 }
 
 .cards-wrapper {
-    padding: 0 4px 4px 4px;
-    margin: 0px 4px 10px 4px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 100%;
-    position: relative;
+	padding: 0 4px 4px 4px;
+	margin: 0px 4px 10px 4px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	height: 100%;
+	position: relative;
+	scrollbar-width: thin;
 }
 
 /* width */
 
 /* Handle */
 .cards-wrapper::-webkit-scrollbar-thumb {
-    background: hsla(0, 1%, 66%, 0.5);
-    border-radius: 4px;
+	background: hsla(0, 1%, 66%, 0.5);
+	border-radius: 4px;
 }
 
 /* Track */
 .cards-wrapper::-webkit-scrollbar-track {
-    background: hsla(0, 2%, 74%, 0.3);
-    border-radius: 4px;
+	background: hsla(0, 2%, 74%, 0.3);
+	border-radius: 4px;
 }
 
-
 .list-cards-footer {
-    min-height: 38px;
-    max-height: 38px;
-    display: flex;
-    justify-content: space-between;
+	min-height: 38px;
+	max-height: 38px;
+    display: inline-flex;
     align-items: center;
+
 }
 
 .open-new-card {
-    border-radius: 3px;
-    color: #5e6c84;
-    display: block;
-    flex: 1 0 auto;
-    margin: 2px 0 4px 8px;
-    position: relative;
-    text-decoration: none;
-    -webkit-user-select: none;
-    user-select: none;
-    cursor: pointer;
-    padding: 2px 0px 8px 0px;
-    
+    background-color: #ebecf0;
+    border: none;
+	border-radius: 3px;
+	color: #5e6c84;
+	display: block;
+	flex: 1 0 auto;
+	position: relative;
+	cursor: pointer;
+    height: 32px;
+    padding: 4px 6px 6px 4px;
 }
 .open-new-card:hover {
-    background-color: hsla(0, 0%, 75%, 0.3);
-
+	background-color: hsla(0, 0%, 75%, 0.3);
 }
 
 .open-card-text {
-    font-size: 14px;
-    vertical-align: middle;
+	font-size: 14px;
+	vertical-align: middle;
     margin-right: 5px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .open-template-button {
-    background-color: #ebecf0;
-    border: 0;
-    border-radius: 3px;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
+	background-color: #ebecf0;
+	border: 0;
+	border-radius: 3px;
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
     position: relative;
-    margin-bottom: 2px;
+    padding: 4px 6px 2px 4px;
 }
 .open-template-button:hover {
-background-color: hsla(0, 0%, 75%, 0.3);
+	background-color: hsla(0, 0%, 75%, 0.3);
+}
+
+.new-card-btn-container {
+	display: flex;
+	align-items: center;
+}
+
+.new-card-btn {
+	height: 32px;
+	background: hsla(128, 76%, 33%, 0.8);
+	color: #fff;
+	border: none;
+	border-radius: 3px;
+    cursor: pointer;
+    padding: 4px 12px 6px 12px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 500;
+}
+.new-card-close {
+	border: none;
+	height: 32px;
+	background-color: #ebecf0;
+    cursor: pointer;
+    user-select: none;
+}
+.new-card-btn:hover {
+	background: hsla(128, 80%, 43%, 0.74);
+}
+
+button {
+    outline: none;
+}
+button:active {
+    background-color: hsla(0, 0%, 75%, 0.3)!important;
 }
