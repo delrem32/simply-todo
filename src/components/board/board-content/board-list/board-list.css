@@ -134,8 +134,9 @@
 	min-height: 38px;
 	max-height: 38px;
     display: inline-flex;
-    align-items: center;
-
+    justify-content: space-between;
+    align-self: normal;
+    margin: 0 8px 0 8px;
 }
 
 .open-new-card {
