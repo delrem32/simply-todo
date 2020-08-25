@@ -1,19 +1,45 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import "./board-list.css";
 import TextareaAutosize from "react-textarea-autosize";
 
 function BoardList() {
 	const [visible, setVisible] = useState(false);
+	const ref = useRef(null);
+	const escapeListener = useCallback((e) => {
+	  if (e.key === 'Escape') {
+		setVisible(false);
+	  }
+	}, [])
+	const clickListener = useCallback(
+	  (e) => {
+		  if(ref.current !== null) {
+			if (!ref.current.contains(e.target)) {
+				document.removeEventListener('click', clickListener)
+		  		document.removeEventListener('keyup', escapeListener)
+				setVisible(false);
+			  } 
+		  }
+	  },
+	  [ref.current],
+	)
+	
+	const textAreaRef = useCallback(node => {
+		if(node !== null) {
+			document.addEventListener('click', clickListener)
+			document.addEventListener('keyup', escapeListener)
+			node.focus();
+		}
+	});
 	function handleVisibility() {
 		setVisible(!visible);
 	}
 	function newCard(visible) {
 		if (visible) {
 			return (
-				<div>
+				<div ref={ref}>
 					<div className="list-card-details">
-						<TextareaAutosize
+						<TextareaAutosize ref={textAreaRef}
 							className="list-card-new"
 							placeholder="Geben Sie einen Titel für diese Karte ein ..."
 							minRows={2}
@@ -23,7 +49,10 @@ function BoardList() {
 						<button className="new-card-btn">
 							Karte hinzufügen
 						</button>
-						<button className="new-card-close" onClick={handleVisibility}>
+						<button
+							className="new-card-close"
+							onClick={handleVisibility}
+						>
 							<i className="material-icons-outlined bl-24">
 								close
 							</i>
@@ -38,7 +67,10 @@ function BoardList() {
 			return (
 				<div className="list-cards-footer">
 					<div>
-						<button className="open-new-card" onClick={handleVisibility}>
+						<button
+							className="open-new-card"
+							onClick={handleVisibility}
+						>
 							<i className="material-icons-outlined bl-20">add</i>
 							<span className="open-card-text">
 								Eine weitere Karte hinzufügen
@@ -58,51 +90,58 @@ function BoardList() {
 	}
 
 	return (
-		<div className="list-cards">
-			<div className="list-card-header">
-				<h2>Open</h2>
-				<div className="list-card-header-button">
-					<i className="material-icons-outlined bl-16">more_horiz</i>
-				</div>
-			</div>
-			<div className="cards-wrapper">
-				<div className="list-card-details">
-					<div>Aaaa Aasdasd asdas a fafsf qff qw f qf q fqff f</div>
-				</div>
-				<div className="list-card-details">
-					<div>Bonés de beisebol de hip hop personalizado</div>
-				</div>
-				<div className="list-card-details">
-					<div>impresso men stellar lumen s (xlm) para a lua</div>
-				</div>
-				<div className="list-card-details">
-					<div>Bonés de beisebol de hip</div>
-				</div>
-				<div className="list-card-details">
-					<div>lilavave criou um design</div>
-				</div>
-				<div className="list-card-details">
-					<div>
-						GU10 LED Light Bulb Downlight Lamp 3000K Warm White
-						Bulbs.
+		<div className="list-wrapper">
+			<div className="list-cards">
+				<div className="list-card-header">
+					<h2>Open</h2>
+					<div className="list-card-header-button">
+						<i className="material-icons-outlined bl-16">
+							more_horiz
+						</i>
 					</div>
 				</div>
-				<div className="list-card-details">
-					<div>seu cachorro é o seu</div>
-				</div>
-				<div className="list-card-details">
-					<div>
-						VECTOR® MD / MD3F são medidores monofásicos de energia
-						elétrica, totalmente eletrônicos, desenvolvidos pela
-						NANSEN S/A. O VECTOR® MD foi desenvolvido para medição
-						de energia ativa (kWh) e o VECTOR® MD3F para medição de
-						energia ativa (kWh) monofásica a 3 fios, alimentadas com
-						transformadores com TAP central.
+				<div className="cards-wrapper">
+					<div className="list-card-details">
+						<div>
+							Aaaa Aasdasd asdas a fafsf qff qw f qf q fqff f
+						</div>
 					</div>
+					<div className="list-card-details">
+						<div>Bonés de beisebol de hip hop personalizado</div>
+					</div>
+					<div className="list-card-details">
+						<div>impresso men stellar lumen s (xlm) para a lua</div>
+					</div>
+					<div className="list-card-details">
+						<div>Bonés de beisebol de hip</div>
+					</div>
+					<div className="list-card-details">
+						<div>lilavave criou um design</div>
+					</div>
+					<div className="list-card-details">
+						<div>
+							GU10 LED Light Bulb Downlight Lamp 3000K Warm White
+							Bulbs.
+						</div>
+					</div>
+					<div className="list-card-details">
+						<div>seu cachorro é o seu</div>
+					</div>
+					<div className="list-card-details">
+						<div>
+							VECTOR® MD / MD3F são medidores monofásicos de
+							energia elétrica, totalmente eletrônicos,
+							desenvolvidos pela NANSEN S/A. O VECTOR® MD foi
+							desenvolvido para medição de energia ativa (kWh) e o
+							VECTOR® MD3F para medição de energia ativa (kWh)
+							monofásica a 3 fios, alimentadas com transformadores
+							com TAP central.
+						</div>
+					</div>
+					{newCard(visible)}
 				</div>
-				{newCard(visible)}
+				{addCard(visible)}
 			</div>
-			{addCard(visible)}
 		</div>
 	);
 }
