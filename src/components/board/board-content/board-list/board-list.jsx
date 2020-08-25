@@ -6,17 +6,11 @@ import TextareaAutosize from "react-textarea-autosize";
 function BoardList() {
 	const [visible, setVisible] = useState(false);
 	const ref = useRef(null);
-	const escapeListener = useCallback((e) => {
-		if (e.key === "Escape") {
-			setVisible(false);
-		}
-	}, []);
 	const clickListener = useCallback(
 		(e) => {
-			if (ref.current !== null) {
+			if (ref.current) {
 				if (!ref.current.contains(e.target)) {
 					document.removeEventListener("click", clickListener);
-					document.removeEventListener("keyup", escapeListener);
 					setVisible(false);
 				}
 			}
@@ -24,13 +18,16 @@ function BoardList() {
 		[ref.current]
 	);
 	const textAreaRef = useCallback((node) => {
-		if (node !== null) {
+		if (node) {
 			document.addEventListener("click", clickListener);
-			document.addEventListener("keyup", escapeListener);
 			node.focus();
 		}
 	});
 	function handleVisibility() {
+		if(visible) {
+			document.removeEventListener("click", clickListener);
+			setVisible(!visible)
+		}
 		setVisible(!visible);
 	}
 	function newCard(visible) {
