@@ -7,27 +7,26 @@ function BoardList() {
 	const [visible, setVisible] = useState(false);
 	const ref = useRef(null);
 	const escapeListener = useCallback((e) => {
-	  if (e.key === 'Escape') {
-		setVisible(false);
-	  }
-	}, [])
+		if (e.key === "Escape") {
+			setVisible(false);
+		}
+	}, []);
 	const clickListener = useCallback(
-	  (e) => {
-		  if(ref.current !== null) {
-			if (!ref.current.contains(e.target)) {
-				document.removeEventListener('click', clickListener)
-		  		document.removeEventListener('keyup', escapeListener)
-				setVisible(false);
-			  } 
-		  }
-	  },
-	  [ref.current],
-	)
-	
-	const textAreaRef = useCallback(node => {
-		if(node !== null) {
-			document.addEventListener('click', clickListener)
-			document.addEventListener('keyup', escapeListener)
+		(e) => {
+			if (ref.current !== null) {
+				if (!ref.current.contains(e.target)) {
+					document.removeEventListener("click", clickListener);
+					document.removeEventListener("keyup", escapeListener);
+					setVisible(false);
+				}
+			}
+		},
+		[ref.current]
+	);
+	const textAreaRef = useCallback((node) => {
+		if (node !== null) {
+			document.addEventListener("click", clickListener);
+			document.addEventListener("keyup", escapeListener);
 			node.focus();
 		}
 	});
@@ -39,7 +38,8 @@ function BoardList() {
 			return (
 				<div ref={ref}>
 					<div className="list-card-details">
-						<TextareaAutosize ref={textAreaRef}
+						<TextareaAutosize
+							ref={textAreaRef}
 							className="list-card-new"
 							placeholder="Geben Sie einen Titel für diese Karte ein ..."
 							minRows={2}
@@ -88,7 +88,6 @@ function BoardList() {
 			);
 		}
 	}
-
 	return (
 		<div className="list-wrapper">
 			<div className="list-cards">
