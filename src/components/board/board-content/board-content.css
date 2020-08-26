@@ -75,3 +75,6 @@
 	width: 16px;
 	height: 16px;
 }
+.usable-lists {
+    display: inherit;
+}

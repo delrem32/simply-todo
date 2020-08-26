@@ -2,10 +2,12 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import "./board-list.css";
 import TextareaAutosize from "react-textarea-autosize";
+import { Droppable, Draggable } from "react-beautiful-dnd";
 
-function BoardList() {
+function BoardList(props) {
 	const [visible, setVisible] = useState(false);
 	const ref = useRef(null);
+	const tasksList = props.tasks;
 	const clickListener = useCallback(
 		(e) => {
 			if (ref.current) {
@@ -24,9 +26,9 @@ function BoardList() {
 		}
 	});
 	function handleVisibility() {
-		if(visible) {
+		if (visible) {
 			document.removeEventListener("click", clickListener);
-			setVisible(!visible)
+			setVisible(!visible);
 		}
 		setVisible(!visible);
 	}
@@ -86,59 +88,66 @@ function BoardList() {
 		}
 	}
 	return (
-		<div className="list-wrapper">
-			<div className="list-cards">
-				<div className="list-card-header">
-					<h2>Open</h2>
-					<div className="list-card-header-button">
-						<i className="material-icons-outlined bl-16">
-							more_horiz
-						</i>
+		<Draggable draggableId={props.column.id} index={props.index}>
+			{(provided) => (
+				<div
+					className="list-wrapper"
+					{...provided.draggableProps}
+					ref={provided.innerRef}
+				>
+					<div className="list-cards">
+						<div className="list-card-header" {...provided.dragHandleProps}>
+							<h2>{props.column.title}</h2>
+							<div className="list-card-header-button">
+								<i className="material-icons-outlined bl-16">
+									more_horiz
+								</i>
+							</div>
+						</div>
+						<div className="cards-wrapper">
+							<Droppable droppableId={props.column.id} type="task">
+								{(provided) => (
+									<div
+										className="droppable-container"
+										{...provided.droppableProps}
+										ref={provided.innerRef}
+									>
+										{tasksList.map((task, index) => (
+											<Draggable
+												draggableId={task.id}
+												index={index}
+												key={task.id}
+											>
+												{(provided) => (
+													<div
+														className="list-card-details"
+														{...provided.draggableProps}
+														{...provided.dragHandleProps}
+														ref={provided.innerRef}
+													>
+														<a
+															className="divLink"
+															href="#"
+														>
+															<div>
+																{task.content}
+															</div>
+														</a>
+													</div>
+												)}
+											</Draggable>
+										))}
+										{provided.placeholder}
+									</div>
+								)}
+							</Droppable>
+							{newCard(visible)}
+						</div>
+						{addCard(visible)}
 					</div>
 				</div>
-				<div className="cards-wrapper">
-					<div className="list-card-details">
-						<div>
-							Aaaa Aasdasd asdas a fafsf qff qw f qf q fqff f
-						</div>
-					</div>
-					<div className="list-card-details">
-						<div>Bonés de beisebol de hip hop personalizado</div>
-					</div>
-					<div className="list-card-details">
-						<div>impresso men stellar lumen s (xlm) para a lua</div>
-					</div>
-					<div className="list-card-details">
-						<div>Bonés de beisebol de hip</div>
-					</div>
-					<div className="list-card-details">
-						<div>lilavave criou um design</div>
-					</div>
-					<div className="list-card-details">
-						<div>
-							GU10 LED Light Bulb Downlight Lamp 3000K Warm White
-							Bulbs.
-						</div>
-					</div>
-					<div className="list-card-details">
-						<div>seu cachorro é o seu</div>
-					</div>
-					<div className="list-card-details">
-						<div>
-							VECTOR® MD / MD3F são medidores monofásicos de
-							energia elétrica, totalmente eletrônicos,
-							desenvolvidos pela NANSEN S/A. O VECTOR® MD foi
-							desenvolvido para medição de energia ativa (kWh) e o
-							VECTOR® MD3F para medição de energia ativa (kWh)
-							monofásica a 3 fios, alimentadas com transformadores
-							com TAP central.
-						</div>
-					</div>
-					{newCard(visible)}
-				</div>
-				{addCard(visible)}
-			</div>
-		</div>
+			)}
+		</Draggable>
 	);
 }
 
