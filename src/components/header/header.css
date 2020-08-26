@@ -5,13 +5,12 @@
 	flex-flow: row;
 	justify-content: space-between;
 	align-items: center;
-    padding: 4px;
-    max-height: 40px;
+	padding: 4px;
+	max-height: 40px;
 }
 
 .container {
 	overflow: hidden;
-	
 }
 
 .start_items > button {
@@ -63,7 +62,7 @@
 	opacity: 0.5;
 }
 .material-icons-outlined.md-light {
-    color: rgba(255, 255, 255, 1) !important;
+	color: rgba(255, 255, 255, 1) !important;
 	vertical-align: middle;
 	overflow: hidden;
 	text-overflow: clip;
@@ -83,7 +82,7 @@
 	border-radius: 3px;
 	width: 32px;
 	height: 32px;
-    padding: 0;
+	padding: 0;
 }
 .square_button:hover {
 	background-color: hsla(0, 0%, 75%, 0.3);
@@ -99,7 +98,7 @@
 	border-radius: 20px;
 	width: 32px;
 	height: 32px;
-    padding: 0;
+	padding: 0;
 }
 .circle_button:hover {
 	background-color: hsla(0, 0%, 75%, 0.3);

@@ -6,10 +6,10 @@ import BoardContent from "./board-content/board-content";
 
 function Board() {
 	return (
-			<div className="board-flex-wrapper">
-				<BoardHeader />
-				<BoardContent />
-			</div>
+		<div className="board-flex-wrapper">
+			<BoardHeader />
+			<BoardContent />
+		</div>
 	);
 }
 

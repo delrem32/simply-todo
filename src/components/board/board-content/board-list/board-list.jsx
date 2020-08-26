@@ -151,4 +151,4 @@ function BoardList(props) {
 	);
 }
 
-export default connect(null, null)(BoardList);
+export default connect()(BoardList);

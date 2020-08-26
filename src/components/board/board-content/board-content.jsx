@@ -92,7 +92,8 @@ function BoardContent() {
 					type="column"
 				>
 					{(provided) => (
-						<div className="usable-lists"
+						<div
+							className="usable-lists"
 							{...provided.droppableProps}
 							ref={provided.innerRef}
 						>
