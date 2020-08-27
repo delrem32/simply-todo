@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { connect } from "react-redux";
 import "./board-content.css";
 import BoardList from "./board-list/board-list";
-import templateData from "../../../template-data";
+import templateData2 from "../../../template-data2";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import TextareaAutosize from "react-textarea-autosize";
 
 function BoardContent() {
 	const i = ["asdsad", "asdasd", "fsaffa", 3, 4, 5, 6, 7];
-	const [data, setData] = useState(templateData);
+	const [data2, setData2] = useState(templateData2);
+	const [visible, setVisible] = useState(false);
+	const ref = useRef(null);
 	const onDragEnd = (result) => {
 		const { destination, source, draggableId, type } = result;
 
@@ -23,20 +26,24 @@ function BoardContent() {
 		}
 
 		if (type === "column") {
-			const newColumnOrder = Array.from(data.columnOrder);
+			const newColumnOrder = Array.from(data2.columnOrder);
 			newColumnOrder.splice(source.index, 1);
 			newColumnOrder.splice(destination.index, 0, draggableId);
 
 			const newState = {
-				...data,
+				...data2,
 				columnOrder: newColumnOrder,
 			};
-			setData(newState);
+			setData2(newState);
 		}
 
 		if (type === "task") {
-			const start = data.columns[source.droppableId];
-			const finish = data.columns[destination.droppableId];
+			const start = data2.columns.find(
+				(column) => column.id === source.droppableId
+			);
+			const finish = data2.columns.find(
+				(column) => column.id === destination.droppableId
+			);
 
 			if (start === finish) {
 				const newTaskIds = Array.from(start.taskIds);
@@ -49,16 +56,17 @@ function BoardContent() {
 				};
 
 				const newState = {
-					...data,
-					columns: {
-						...data.columns,
-						[newColumn.id]: newColumn,
-					},
+					...data2,
+					columns: [
+						...data2.columns.map((column) =>
+							column.id === newColumn.id ? newColumn : column
+						),
+					],
 				};
-				setData(newState);
+				setData2(newState);
 				return;
 			}
-
+			// Moving tasks between columns
 			const startTaskIds = Array.from(start.taskIds);
 			startTaskIds.splice(source.index, 1);
 			const newStart = {
@@ -73,16 +81,95 @@ function BoardContent() {
 				taskIds: finishTaskIds,
 			};
 			const newState = {
-				...data,
-				columns: {
-					...data.columns,
-					[newStart.id]: newStart,
-					[newFinish.id]: newFinish,
-				},
+				...data2,
+				columns: [
+					...data2.columns.map((column) => {
+						if (column.id === newStart.id) {
+							return newStart;
+						}
+						if (column.id === newFinish.id) {
+							return newFinish;
+						}
+						return column;
+					}),
+				],
 			};
-			setData(newState);
+			setData2(newState);
 		}
 	};
+	const clickListener = useCallback((e) => {
+		if (ref.current) {
+			if (!ref.current.contains(e.target)) {
+				document.removeEventListener("click", clickListener);
+				setVisible(false);
+			}
+		}
+	}, []);
+	const textAreaRef2 = useCallback(
+		(node) => {
+			if (node) {
+				document.addEventListener("click", clickListener);
+				node.focus();
+			}
+		},
+		[clickListener]
+	);
+	function handleVisibility() {
+		if (visible) {
+			document.removeEventListener("click", clickListener);
+			setVisible(!visible);
+		}
+		setVisible(!visible);
+	}
+	function addList(visible) {
+		if (visible) {
+			return (
+				<div className="add-list-container" ref={ref}>
+					<div className="add-list-textarea-container">
+						<TextareaAutosize
+							ref={textAreaRef2}
+							className="add-list-textarea"
+							placeholder="Geben Sie einen Titel für diese Liste ein ..."
+							minRows={2}
+						></TextareaAutosize>
+					</div>
+					<div className="add-list-btn-container">
+						<button className="new-card-btn">
+							Liste hinzufügen
+						</button>
+						<button
+							className="new-card-close"
+							onClick={handleVisibility}
+						>
+							<i className="material-icons-outlined bl-24">
+								close
+							</i>
+						</button>
+					</div>
+				</div>
+			);
+		}
+	}
+	function buttonAddList(visible) {
+		if (!visible) {
+			return (
+				<button
+					className="board-new-list-btn"
+					onClick={handleVisibility}
+				>
+					<div>
+						<i className="material-icons-outlined md-light vl-16">
+							add
+						</i>
+					</div>
+					<div className="new-list-text">
+						Eine weitere Liste hinzufügen
+					</div>
+				</button>
+			);
+		}
+	}
+
 	return (
 		<DragDropContext onDragEnd={onDragEnd}>
 			<div className="board-content-wrapper">
@@ -97,11 +184,19 @@ function BoardContent() {
 							{...provided.droppableProps}
 							ref={provided.innerRef}
 						>
-							{data.columnOrder.map((columnId, index) => {
-								const column = data.columns[columnId];
-								const tasks = column.taskIds.map(
-									(taskId) => data.tasks[taskId]
+							{data2.columnOrder.map((columnId, index) => {
+								const column = data2.columns.find(
+									(column) => column.id === columnId
 								);
+								const tasks = column.taskIds
+									.map((taskId) => {
+										return [
+											...data2.tasks.filter(
+												(task) => task.id === taskId
+											),
+										];
+									})
+									.flat();
 
 								return (
 									<BoardList
@@ -112,22 +207,13 @@ function BoardContent() {
 									/>
 								);
 							})}
-
 							{provided.placeholder}
 						</div>
 					)}
 				</Droppable>
 				<div className="board-content">
-					<button className="board-new-list-btn">
-						<div>
-							<i className="material-icons-outlined md-light vl-16">
-								add
-							</i>
-						</div>
-						<div className="new-list-text">
-							Eine weitere Liste hinzufügen
-						</div>
-					</button>
+					{buttonAddList(visible)}
+					{addList(visible)}
 				</div>
 			</div>
 		</DragDropContext>

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { connect } from "react-redux";
 import "./board-list.css";
 import TextareaAutosize from "react-textarea-autosize";
@@ -17,14 +17,14 @@ function BoardList(props) {
 				}
 			}
 		},
-		[ref.current]
+		[]
 	);
 	const textAreaRef = useCallback((node) => {
 		if (node) {
 			document.addEventListener("click", clickListener);
 			node.focus();
 		}
-	});
+	}, [clickListener]);
 	function handleVisibility() {
 		if (visible) {
 			document.removeEventListener("click", clickListener);
@@ -127,7 +127,7 @@ function BoardList(props) {
 													>
 														<a
 															className="divLink"
-															href="#"
+															href="http://localhost:3000/#"
 														>
 															<div>
 																{task.content}
