@@ -40,7 +40,7 @@ function BoardHeader() {
 							room_service
 						</i>
 					</div>
-					<div className="inbutton-text">Butler (3 Tips)</div>
+					<div className="inbutton-text">Butler</div>
 				</button>
 				<button className="btn-text">
 					<div>
