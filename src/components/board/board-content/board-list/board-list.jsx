@@ -3,28 +3,31 @@ import { connect } from "react-redux";
 import "./board-list.css";
 import TextareaAutosize from "react-textarea-autosize";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import { addTask } from "../../../../actions/actions";
 
 function BoardList(props) {
 	const [visible, setVisible] = useState(false);
 	const ref = useRef(null);
+	const textAreaRef = useRef(null);
 	const tasksList = props.tasks;
-	const clickListener = useCallback(
-		(e) => {
-			if (ref.current) {
-				if (!ref.current.contains(e.target)) {
-					document.removeEventListener("click", clickListener);
-					setVisible(false);
-				}
+	const clickListener = useCallback((e) => {
+		if (ref.current) {
+			if (!ref.current.contains(e.target)) {
+				document.removeEventListener("click", clickListener);
+				setVisible(false);
+			}
+		}
+	}, []);
+	const textAreaContainerRef = useCallback(
+		(node) => {
+			if (node) {
+				document.addEventListener("click", clickListener);
+				textAreaRef.current.focus();
+				textAreaRef.current.scrollIntoView();
 			}
 		},
-		[]
+		[clickListener]
 	);
-	const textAreaRef = useCallback((node) => {
-		if (node) {
-			document.addEventListener("click", clickListener);
-			node.focus();
-		}
-	}, [clickListener]);
 	function handleVisibility() {
 		if (visible) {
 			document.removeEventListener("click", clickListener);
@@ -32,11 +35,24 @@ function BoardList(props) {
 		}
 		setVisible(!visible);
 	}
+
+	function submitTask() {
+		try {
+			props.addTask(textAreaRef.current.value.trim(), props.column.id);
+			handleVisibility();
+		} catch (e) {
+			console.log(e);
+		}
+	}
+
 	function newCard(visible) {
 		if (visible) {
 			return (
 				<div ref={ref}>
-					<div className="list-card-details">
+					<div
+						className="list-card-details"
+						ref={textAreaContainerRef}
+					>
 						<TextareaAutosize
 							ref={textAreaRef}
 							className="list-card-new"
@@ -45,7 +61,7 @@ function BoardList(props) {
 						/>
 					</div>
 					<div className="new-card-btn-container">
-						<button className="new-card-btn">
+						<button className="new-card-btn" onClick={submitTask}>
 							Karte hinzufügen
 						</button>
 						<button
@@ -96,7 +112,10 @@ function BoardList(props) {
 					ref={provided.innerRef}
 				>
 					<div className="list-cards">
-						<div className="list-card-header" {...provided.dragHandleProps}>
+						<div
+							className="list-card-header"
+							{...provided.dragHandleProps}
+						>
 							<h2>{props.column.title}</h2>
 							<div className="list-card-header-button">
 								<i className="material-icons-outlined bl-16">
@@ -105,7 +124,10 @@ function BoardList(props) {
 							</div>
 						</div>
 						<div className="cards-wrapper">
-							<Droppable droppableId={props.column.id} type="task">
+							<Droppable
+								droppableId={props.column.id}
+								type="task"
+							>
 								{(provided) => (
 									<div
 										className="droppable-container"
@@ -150,5 +172,13 @@ function BoardList(props) {
 		</Draggable>
 	);
 }
+const mapStateToProps = (state) => {
+	return {};
+};
 
-export default connect()(BoardList);
+const mapDispatchToProps = (dispatch) => {
+	return {
+		addTask: (content, columnId) => dispatch(addTask(content, columnId)),
+	};
+};
+export default connect(mapStateToProps, mapDispatchToProps)(BoardList);

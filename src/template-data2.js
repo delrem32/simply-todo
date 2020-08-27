@@ -1,5 +1,3 @@
-import templateData from "./template-data";
-
 const templateData2 = {
 	tasks: [
 		{ id: "task-1", content: "Do something right" },

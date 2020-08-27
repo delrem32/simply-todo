@@ -2,15 +2,30 @@ import React, { useState, useRef, useCallback } from "react";
 import { connect } from "react-redux";
 import "./board-content.css";
 import BoardList from "./board-list/board-list";
-import templateData2 from "../../../template-data2";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import TextareaAutosize from "react-textarea-autosize";
+import {
+	addColumn,
+	updateColumnOrder,
+	updateColumns,
+} from "../../../actions/actions";
 
-function BoardContent() {
-	const i = ["asdsad", "asdasd", "fsaffa", 3, 4, 5, 6, 7];
-	const [data2, setData2] = useState(templateData2);
+function BoardContent(props) {
+	const { columns, tasks, columnOrder } = props;
+
 	const [visible, setVisible] = useState(false);
 	const ref = useRef(null);
+	const textAreaRef = useRef(null);
+
+	function submitColumn() {
+		try {
+			props.addColumn(textAreaRef.current.value.trim());
+			handleVisibility();
+		} catch (e) {
+			console.log(e);
+		}
+	}
+
 	const onDragEnd = (result) => {
 		const { destination, source, draggableId, type } = result;
 
@@ -26,22 +41,18 @@ function BoardContent() {
 		}
 
 		if (type === "column") {
-			const newColumnOrder = Array.from(data2.columnOrder);
+			const newColumnOrder = Array.from(columnOrder);
 			newColumnOrder.splice(source.index, 1);
 			newColumnOrder.splice(destination.index, 0, draggableId);
 
-			const newState = {
-				...data2,
-				columnOrder: newColumnOrder,
-			};
-			setData2(newState);
+			props.updateColumnOrder(newColumnOrder);
 		}
 
 		if (type === "task") {
-			const start = data2.columns.find(
+			const start = columns.find(
 				(column) => column.id === source.droppableId
 			);
-			const finish = data2.columns.find(
+			const finish = columns.find(
 				(column) => column.id === destination.droppableId
 			);
 
@@ -55,16 +66,11 @@ function BoardContent() {
 					taskIds: newTaskIds,
 				};
 
-				const newState = {
-					...data2,
-					columns: [
-						...data2.columns.map((column) =>
-							column.id === newColumn.id ? newColumn : column
-						),
-					],
-				};
-				setData2(newState);
-				return;
+				return props.updateColumns([
+					...columns.map((column) =>
+						column.id === newColumn.id ? newColumn : column
+					),
+				]);
 			}
 			// Moving tasks between columns
 			const startTaskIds = Array.from(start.taskIds);
@@ -80,21 +86,17 @@ function BoardContent() {
 				...finish,
 				taskIds: finishTaskIds,
 			};
-			const newState = {
-				...data2,
-				columns: [
-					...data2.columns.map((column) => {
-						if (column.id === newStart.id) {
-							return newStart;
-						}
-						if (column.id === newFinish.id) {
-							return newFinish;
-						}
-						return column;
-					}),
-				],
-			};
-			setData2(newState);
+			return props.updateColumns([
+				...columns.map((column) => {
+					if (column.id === newStart.id) {
+						return newStart;
+					}
+					if (column.id === newFinish.id) {
+						return newFinish;
+					}
+					return column;
+				}),
+			]);
 		}
 	};
 	const clickListener = useCallback((e) => {
@@ -105,11 +107,12 @@ function BoardContent() {
 			}
 		}
 	}, []);
-	const textAreaRef2 = useCallback(
+	const textAreaContainerRef = useCallback(
 		(node) => {
 			if (node) {
 				document.addEventListener("click", clickListener);
-				node.focus();
+				textAreaRef.current.focus();
+				textAreaRef.current.scrollIntoView();
 			}
 		},
 		[clickListener]
@@ -125,16 +128,19 @@ function BoardContent() {
 		if (visible) {
 			return (
 				<div className="add-list-container" ref={ref}>
-					<div className="add-list-textarea-container">
+					<div
+						className="add-list-textarea-container"
+						ref={textAreaContainerRef}
+					>
 						<TextareaAutosize
-							ref={textAreaRef2}
+							ref={textAreaRef}
 							className="add-list-textarea"
 							placeholder="Geben Sie einen Titel für diese Liste ein ..."
 							minRows={2}
 						></TextareaAutosize>
 					</div>
 					<div className="add-list-btn-container">
-						<button className="new-card-btn">
+						<button className="new-card-btn" onClick={submitColumn}>
 							Liste hinzufügen
 						</button>
 						<button
@@ -184,14 +190,14 @@ function BoardContent() {
 							{...provided.droppableProps}
 							ref={provided.innerRef}
 						>
-							{data2.columnOrder.map((columnId, index) => {
-								const column = data2.columns.find(
+							{columnOrder.map((columnId, index) => {
+								const column = columns.find(
 									(column) => column.id === columnId
 								);
-								const tasks = column.taskIds
+								const tasksByColumn = column.taskIds
 									.map((taskId) => {
 										return [
-											...data2.tasks.filter(
+											...tasks.filter(
 												(task) => task.id === taskId
 											),
 										];
@@ -202,7 +208,7 @@ function BoardContent() {
 									<BoardList
 										key={column.id}
 										column={column}
-										tasks={tasks}
+										tasks={tasksByColumn}
 										index={index}
 									/>
 								);
@@ -220,4 +226,20 @@ function BoardContent() {
 	);
 }
 
-export default connect(null, null)(BoardContent);
+const mapStateToProps = (state) => {
+	return {
+		columns: state.columns,
+		tasks: state.tasks,
+		columnOrder: state.columnOrder,
+	};
+};
+
+const mapStateToDispatch = (dispatch) => {
+	return {
+		addColumn: (title) => dispatch(addColumn(title)),
+		updateColumnOrder: (payload) => dispatch(updateColumnOrder(payload)),
+		updateColumns: (payload) => dispatch(updateColumns(payload)),
+	};
+};
+
+export default connect(mapStateToProps, mapStateToDispatch)(BoardContent);

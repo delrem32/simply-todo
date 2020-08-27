@@ -1,11 +1,11 @@
 .list-wrapper {
-    margin-bottom: 8px;
-    margin-right: 8px;
-    margin-left: 8px;
-    padding-bottom: 8px;
-    max-height: 100%;
-    min-width: 272px;
-    max-width: 272px;
+	margin-bottom: 8px;
+	margin-right: 8px;
+	margin-left: 8px;
+	padding-bottom: 8px;
+	max-height: 100%;
+	min-width: 272px;
+	max-width: 272px;
 }
 
 .list-cards {
@@ -53,7 +53,7 @@
 .list-card-details {
 	background-color: white;
 	border-radius: 5px;
-	padding: 6px 8px 2px;
+	padding: 6px 8px 6px;
 	min-height: 20px;
 	max-width: 100%;
 	white-space: pre-wrap;
@@ -62,7 +62,7 @@
 	margin-top: 5px;
 	box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
 	font-size: 14px;
-	cursor: pointer;	
+	cursor: pointer;
 }
 
 .list-card-new {
@@ -133,23 +133,23 @@
 .list-cards-footer {
 	min-height: 38px;
 	max-height: 38px;
-    display: inline-flex;
-    justify-content: space-between;
-    align-self: normal;
-    margin: 0 8px 0 8px;
+	display: inline-flex;
+	justify-content: space-between;
+	align-self: normal;
+	margin: 0 8px 0 8px;
 }
 
 .open-new-card {
-    background-color: #ebecf0;
-    border: none;
+	background-color: #ebecf0;
+	border: none;
 	border-radius: 3px;
 	color: #5e6c84;
 	display: block;
 	flex: 1 0 auto;
 	position: relative;
 	cursor: pointer;
-    height: 32px;
-    padding: 4px 6px 6px 4px;
+	height: 32px;
+	padding: 4px 6px 6px 4px;
 }
 .open-new-card:hover {
 	background-color: hsla(0, 0%, 75%, 0.3);
@@ -158,8 +158,9 @@
 .open-card-text {
 	font-size: 14px;
 	vertical-align: middle;
-    margin-right: 5px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	margin-right: 5px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+		Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 .open-template-button {
 	background-color: #ebecf0;
@@ -168,8 +169,8 @@
 	width: 32px;
 	height: 32px;
 	cursor: pointer;
-    position: relative;
-    padding: 4px 6px 2px 4px;
+	position: relative;
+	padding: 4px 6px 2px 4px;
 }
 .open-template-button:hover {
 	background-color: hsla(0, 0%, 75%, 0.3);
@@ -186,10 +187,11 @@
 	color: #fff;
 	border: none;
 	border-radius: 3px;
-    cursor: pointer;
-    padding: 4px 12px 6px 12px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: 500;
+	cursor: pointer;
+	padding: 4px 12px 6px 12px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+		Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+	font-weight: 500;
 }
 .new-card-btn:hover {
 	background: hsla(128, 80%, 43%, 0.74);
@@ -198,16 +200,15 @@
 	border: none;
 	height: 32px;
 	background-color: #ebecf0;
-    cursor: pointer;
-    user-select: none;
+	cursor: pointer;
+	user-select: none;
 }
-
 
 button {
-    outline: none;
+	outline: none;
 }
 button:active {
-    background-color: hsla(0, 0%, 75%, 0.3)!important;
+	background-color: hsla(0, 0%, 75%, 0.3) !important;
 }
 
 .divLink {
