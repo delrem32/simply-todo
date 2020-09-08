@@ -1,6 +1,10 @@
 body {
 	background-color: #0079bf;
+	background-image: url("../images/img-3.jpg");
 	overflow: hidden;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
 }
 
 .App {
