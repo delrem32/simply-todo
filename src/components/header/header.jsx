@@ -1,8 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import "./header.css";
+import { singOut } from "../../actions/actions";
 
-function Header() {
+function Header(props) {
+	function singOut() {
+		props.singOut();
+	}
 	return (
 		<div className="container">
 			<div className="header_background">
@@ -45,7 +49,7 @@ function Header() {
 								notifications_outlined
 							</i>
 						</button>
-						<button className="circle_button">
+						<button className="circle_button" onClick={singOut}>
 							<i className="material-icons-outlined md-light md-20">
 								account_circle
 							</i>
@@ -60,4 +64,16 @@ function Header() {
 	);
 }
 
-export default connect(null, null)(Header);
+const mapStateToProps = (state) => {
+	return {
+		auth: state.auth
+	};
+};
+
+const mapStateToDispatch = (dispatch) => {
+	return {
+		singOut: () => dispatch(singOut()),
+	};
+};
+
+export default connect(mapStateToProps, mapStateToDispatch)(Header);
