@@ -12,10 +12,11 @@ import { rootReducer } from "./reducers/rootReducer";
 const persistedState = localStorage.getItem("reduxState")
 	? JSON.parse(localStorage.getItem("reduxState"))
 	: {};
+
 const store = createStore(
 	rootReducer,
 	persistedState,
-	applyMiddleware(logger, thunk)
+	applyMiddleware(thunk, logger)
 );
 store.subscribe(() => {
 	localStorage.setItem("reduxState", JSON.stringify(store.getState()));

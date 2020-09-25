@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import "./board-list.css";
 import TextareaAutosize from "react-textarea-autosize";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { addTask } from "../../../../actions/actions";
+import { addTask, getColumnOrder } from "../../../../actions/actions";
 
 function BoardList(props) {
 	const [visible, setVisible] = useState(false);
@@ -39,6 +39,7 @@ function BoardList(props) {
 	function submitTask() {
 		try {
 			props.addTask(textAreaRef.current.value.trim(), props.column.id);
+			props.getColumnOrder();
 			handleVisibility();
 		} catch (e) {
 			console.log(e);
@@ -179,6 +180,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		addTask: (content, columnId) => dispatch(addTask(content, columnId)),
+		getColumnOrder: () => dispatch(getColumnOrder()),
 	};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BoardList);

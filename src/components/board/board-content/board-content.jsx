@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import { connect } from "react-redux";
 import "./board-content.css";
 import BoardList from "./board-list/board-list";
@@ -6,16 +6,60 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import TextareaAutosize from "react-textarea-autosize";
 import {
 	addColumn,
+	getColumnOrder,
 	updateColumnOrder,
 	updateColumns,
+	getTasks,
+	getColumns, addTask
 } from "../../../actions/actions";
 
 function BoardContent(props) {
-	const { columns, tasks, columnOrder } = props;
+	const {
+		columns,
+		tasks,
+		columnOrder,
+		getColumnOrder,
+		getTasks,
+		getColumns,
+	} = props;
 
 	const [visible, setVisible] = useState(false);
+	const [fetch, setFetch] = useState(false);
 	const ref = useRef(null);
 	const textAreaRef = useRef(null);
+	
+
+	useEffect(() => {
+		if (columnOrder.length > 0) {
+			getColumns(columnOrder);
+		}
+	}, [columnOrder, getColumns]);
+
+	useEffect(() => {
+		if (columnOrder.length > 0) {
+			async function getArrayTasks() {
+				await getTasks(columnOrder);
+				return setFetch(true);
+			}
+			getArrayTasks();
+		}
+	}, [columnOrder, getTasks]);
+	useEffect(() => {
+		try {
+			getColumnOrder().then((response) => {
+				if(response.columnOrder.length === 0) {
+					return getColumns(response.columnOrder).then((response) => {
+						if(response.length === 0) {
+							return setFetch(true);
+						}
+					});
+				}
+			})
+		}
+		catch(err) {
+			console.log(new Error(err));
+		}
+	},[]);
 
 	function submitColumn() {
 		try {
@@ -175,55 +219,62 @@ function BoardContent(props) {
 			);
 		}
 	}
+	if (fetch) {
+		return (
+			<DragDropContext onDragEnd={onDragEnd}>
+				<div className="board-content-wrapper">
+					<Droppable
+						droppableId="all-columns"
+						direction="horizontal"
+						type="column"
+					>
+						{(provided) => (
+							<div
+								className="usable-lists"
+								{...provided.droppableProps}
+								ref={provided.innerRef}
+							>
+								{columnOrder.map((columnId, index) => {
+									const column = columns.find(
+										(column) => column.id === columnId
+									);
+									const tasksByColumn = column.taskIds
+										.map((taskId) => {
+											return [
+												...tasks.filter(
+													(task) => task.id === taskId
+												),
+											];
+										})
+										.flat();
 
-	return (
-		<DragDropContext onDragEnd={onDragEnd}>
-			<div className="board-content-wrapper">
-				<Droppable
-					droppableId="all-columns"
-					direction="horizontal"
-					type="column"
-				>
-					{(provided) => (
-						<div
-							className="usable-lists"
-							{...provided.droppableProps}
-							ref={provided.innerRef}
-						>
-							{columnOrder.map((columnId, index) => {
-								const column = columns.find(
-									(column) => column.id === columnId
-								);
-								const tasksByColumn = column.taskIds
-									.map((taskId) => {
-										return [
-											...tasks.filter(
-												(task) => task.id === taskId
-											),
-										];
-									})
-									.flat();
-
-								return (
-									<BoardList
-										key={column.id}
-										column={column}
-										tasks={tasksByColumn}
-										index={index}
-									/>
-								);
-							})}
-							{provided.placeholder}
-						</div>
-					)}
-				</Droppable>
-				<div className="board-content">
-					{buttonAddList(visible)}
-					{addList(visible)}
+									return (
+										<BoardList
+											key={column.id}
+											column={column}
+											tasks={tasksByColumn}
+											index={index}
+										/>
+									);
+								})}
+								{provided.placeholder}
+							</div>
+						)}
+					</Droppable>
+					<div className="board-content">
+						{buttonAddList(visible)}
+						{addList(visible)}
+					</div>
 				</div>
+			</DragDropContext>
+		);
+	} else {
+		return (
+			<div className="lds-heart">
+				<div></div>
 			</div>
-		</DragDropContext>
-	);
+		);
+	}
 }
 
 const mapStateToProps = (state) => {
@@ -236,6 +287,10 @@ const mapStateToProps = (state) => {
 
 const mapStateToDispatch = (dispatch) => {
 	return {
+		addTask: (content, columnId) => dispatch(addTask(content, columnId)),
+		getColumnOrder: () => dispatch(getColumnOrder()),
+		getTasks: (taskIds) => dispatch(getTasks(taskIds)),
+		getColumns: (columnsIds) => dispatch(getColumns(columnsIds)),
 		addColumn: (title) => dispatch(addColumn(title)),
 		updateColumnOrder: (payload) => dispatch(updateColumnOrder(payload)),
 		updateColumns: (payload) => dispatch(updateColumns(payload)),

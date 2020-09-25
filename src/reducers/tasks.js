@@ -1,12 +1,7 @@
 const GET_TASKS = "GET_TASKS";
 const ADD_TASK = "ADD_TASK";
 
-const initialState = [
-	{ id: "task-1", content: "Do something right" },
-	{ id: "task-2", content: "Dont something right" },
-	{ id: "task-3", content: "Should something right" },
-	{ id: "task-4", content: "Would something right" },
-];
+const initialState = [];
 
 export const tasks = (state = initialState, action) => {
 	switch (action.type) {
@@ -14,12 +9,14 @@ export const tasks = (state = initialState, action) => {
 			return [
 				...state,
 				{
-					id: action.response.id,
+					id: action.response._id,
 					content: action.response.content,
 				},
 			];
 		case GET_TASKS:
-			return action.response;
+			return action.response.map((task) => {
+				return {id: task._id, content: task.content}
+			},[]);
 		default:
 			return state;
 	}
