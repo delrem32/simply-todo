@@ -10,7 +10,7 @@ const checkUser = async () => {
 				"Authorization": localStorage.getItem("Authorization"),
 			},
 		});
-		const responseBody = response.json();
+		const responseBody = await response.json();
 		if (responseBody.authorized) {
 			return true;
 		} else {
@@ -80,6 +80,34 @@ const login = async (email, password) => {
 	}
 };
 
+const userInfo = async () => {
+	try {
+		const response = await fetch(API_URL + "/info", {
+			method: "GET",
+			headers: {
+				"Content-type": "application/json",
+				Accept: "application/json",
+				"Authorization": localStorage.getItem("Authorization"),
+			},
+		});
+		const responseBody = await response.json();
+		if (responseBody.trelloColumnOrder) {
+			localStorage.setItem(
+				"userInfo",
+				responseBody.trelloColumnOrder
+			);
+			return responseBody.trelloColumnOrder;
+		} else {
+			localStorage.removeItem("Authorization");
+			localStorage.removeItem("userInfo");
+			return { responseBody };
+		}
+	}
+	catch (err) {
+		console.log(new Error(err));
+	}
+}
+
 const logout = () => {
 	localStorage.removeItem("Authorization");
 };
@@ -88,5 +116,6 @@ export default {
     checkUser,
 	register,
 	login,
+	userInfo,
 	logout,
 };

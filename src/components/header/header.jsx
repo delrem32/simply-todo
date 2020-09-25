@@ -6,6 +6,7 @@ import { singOut } from "../../actions/actions";
 function Header(props) {
 	function singOut() {
 		props.singOut();
+		
 	}
 	return (
 		<div className="container">

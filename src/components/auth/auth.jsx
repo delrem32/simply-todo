@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import "./auth.css";
-import { singIn, singOut, register } from "../../actions/actions";
+import { singIn, singOut, register,getColumnOrder,getColumns,getTasks } from "../../actions/actions";
 import { useRef } from "react";
 
 function Auth(props) {
@@ -12,8 +12,6 @@ function Auth(props) {
 
 	function submitForm(event) {
 		event.preventDefault();
-		//AuthService.login(event.target.email.value, event.target.password.value)
-		//.then((dispatch) => dispatch);
 		singIn(event.target.email.value, event.target.password.value);
 	}
 
@@ -55,10 +53,14 @@ function Auth(props) {
 const mapStateToProps = (state) => {
 	return {
 		auth: state.auth,
+		columnOrder: state.columnOrder,
 	};
 };
 const mapStateToDispatch = (dispatch) => {
 	return {
+		getColumnOrder: () => dispatch(getColumnOrder()),
+		getTasks: (taskIds) => dispatch(getTasks(taskIds)),
+		getColumns: (columnsIds) => dispatch(getColumns(columnsIds)),
 		singIn: (email, password) => dispatch(singIn(email, password)),
 		singOut: () => dispatch(singOut()),
 		register: (email, password) => dispatch(register(email, password)),
